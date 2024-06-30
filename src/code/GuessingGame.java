@@ -91,11 +91,6 @@ public class GuessingGame
 
     }
 
-    public List<String> getHistory()
-    {
-        return history;
-    }
-
     public int getScore()
     {
         return score;
@@ -124,7 +119,7 @@ public class GuessingGame
         try
         {
             fw = new FileWriter(FILE_NAME, true);
-            fw.write(feedback + System.lineSeparator());
+            fw.write(feedbacks.getLast() + System.lineSeparator());
         }
         catch(IOException e)
         {
@@ -182,4 +177,5 @@ public class GuessingGame
         feedbacks.clear();
         newGuessNumber();
     }
+
 }

@@ -142,10 +142,7 @@ public class Main
 
         // Game Instructions
         gameInstructions.addActionListener(
-                e ->
-                  {
-                      JOptionPane.showMessageDialog(frame, getGameInstructions());
-                  });
+                e -> JOptionPane.showMessageDialog(frame, getGameInstructions()));
 
         // Send Feedback
         sendFeedback.addActionListener(
@@ -190,12 +187,13 @@ public class Main
 
     private static String getGameInstructions()
     {
-        return "Instructions:\n" +
-                "1. Enter a number between 1 and 100 in the text field.\n" +
-                "2. Click \"Submit Guess\" to check your guess.\n" +
-                "3. If your guess is too low or to high, you will receive feedback.\n" +
-                "4. Keep guessing until you find the correct number.\n" +
-                "5. Your score will be displayed and updated after each guess.\n" +
-                "6. You can restar the game or exit from the \"Options\" menu.";
+        return """
+                Instructions:
+                1. Enter a number between 1 and 100 in the text field.
+                2. Click "Submit Guess" to check your guess.
+                3. If your guess is too low or to high, you will receive feedback.
+                4. Keep guessing until you find the correct number.
+                5. Your score will be displayed and updated after each guess.
+                6. You can restart the game or exit from the "Options" menu.""";
     }
 }
