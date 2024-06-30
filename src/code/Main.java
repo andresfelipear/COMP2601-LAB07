@@ -16,6 +16,8 @@ public class Main
     private static final String OPTION3;
     private static final String EXIT;
     private static final String SUBMIT_BUTTON;
+    private static final String INVALID_INPUT;
+    private static final String FEEDBACK_TITLE;
     private static final int    WIDTH;
     private static final int    HEIGHT;
     private static final int    MIN_NUMBER;
@@ -25,26 +27,35 @@ public class Main
     private static final int    GAP_MAIN_PANEL;
     private static final int    MEDIUM_WIDTH;
     private static final int    SMALL_HEIGHT;
+    private static final String GAME_DESCRIPTION;
+    private static final String ERROR_FEEDBACK_TITLE;
+    private static final String GUESS_HISTORY_TITLE;
 
 
     static
     {
-        APP_NAME         = "Guess the Number Game";
-        MENU_TITLE       = "OPTIONS";
-        OPTION1          = "How To Play";
-        OPTION2          = "Send Feedback";
-        OPTION3          = "Restart Game";
-        EXIT             = "Exit";
-        SUBMIT_BUTTON    = "Submit Guess";
-        WIDTH            = 800;
-        HEIGHT           = 600;
-        MIN_NUMBER       = 1;
-        MAX_NUMBER       = 100;
-        MEDIUM_WIDTH     = 120;
-        SMALL_HEIGHT     = 30;
-        ROWS_MAIN_PANEL  = 3;
-        COLS_MAIN_PANEL  = 1;
-        GAP_MAIN_PANEL   = 10;
+        APP_NAME             = "Guess the Number Game";
+        MENU_TITLE           = "OPTIONS";
+        OPTION1              = "How To Play";
+        OPTION2              = "Send Feedback";
+        OPTION3              = "Restart Game";
+        EXIT                 = "Exit";
+        SUBMIT_BUTTON        = "Submit Guess";
+        FEEDBACK_TITLE       = "Enter your feedback:";
+        ERROR_FEEDBACK_TITLE = "Feedback Error";
+        GUESS_HISTORY_TITLE  = "Guess History";
+        WIDTH                = 800;
+        HEIGHT               = 600;
+        MIN_NUMBER           = 1;
+        MAX_NUMBER           = 100;
+        MEDIUM_WIDTH         = 120;
+        SMALL_HEIGHT         = 30;
+        ROWS_MAIN_PANEL      = 4;
+        COLS_MAIN_PANEL      = 1;
+        GAP_MAIN_PANEL       = 10;
+
+        INVALID_INPUT    = String.format("Please enter a number between %d and %d.", MIN_NUMBER, MAX_NUMBER);
+        GAME_DESCRIPTION = String.format("Guess a number between %d and %d", MIN_NUMBER, MAX_NUMBER);
     }
 
     public static void main(String[] args)
@@ -54,39 +65,42 @@ public class Main
 
     private static void createAndShowGUI()
     {
+        final GuessingGame game;
         final JFrame   frame;
         final JMenuBar menuBar;
         final JMenu    menu;
         final JPanel   panel;
         final JPanel   userPanel;
 
-        final JMenuItem option1;
-        final JMenuItem option2;
+        final JMenuItem gameInstructions;
+        final JMenuItem sendFeedback;
         final JMenuItem option3;
         final JMenuItem exit;
 
         final JLabel headerLabel;
+        final JLabel scoreLabel;
         final JLabel resultLabel;
 
         final JTextField userInput;
 
         final JButton submitGuess;
 
+        game        = new GuessingGame(MIN_NUMBER, MAX_NUMBER);
         frame       = new JFrame(APP_NAME);
         panel       = new JPanel();
         userPanel   = new JPanel();
         menuBar     = new JMenuBar();
         menu        = new JMenu(MENU_TITLE);
 
-        option1 = new JMenuItem(OPTION1);
-        option2 = new JMenuItem(OPTION2);
-        option3 = new JMenuItem(OPTION3);
-        exit    = new JMenuItem(EXIT);
+        gameInstructions = new JMenuItem(OPTION1);
+        sendFeedback    = new JMenuItem(OPTION2);
+        option3         = new JMenuItem(OPTION3);
+        exit            = new JMenuItem(EXIT);
 
-        headerLabel =
-                new JLabel(String.format("Guess a number between %d and %d",
-                            MIN_NUMBER,
-                            MAX_NUMBER), JLabel.CENTER);
+        headerLabel = new JLabel(GAME_DESCRIPTION, JLabel.CENTER);
+        resultLabel = new JLabel("", JLabel.CENTER);
+        scoreLabel  = new JLabel("Score: 0", JLabel.CENTER);
+
         submitGuess = new JButton(SUBMIT_BUTTON);
         userInput   = new JTextField();
 
@@ -98,17 +112,70 @@ public class Main
         panel.setLayout(new GridLayout(ROWS_MAIN_PANEL, COLS_MAIN_PANEL, GAP_MAIN_PANEL, GAP_MAIN_PANEL));
         panel.add(headerLabel, BorderLayout.NORTH);
         panel.add(userPanel, BorderLayout.CENTER);
+        panel.add(scoreLabel, BorderLayout.CENTER);
+        panel.add(resultLabel, BorderLayout.SOUTH);
 
-        option1.addActionListener(
+        submitGuess.addActionListener(e ->{
+            final int guess;
+            String response;
+
+            try
+            {
+                guess    = Integer.parseInt(userInput.getText());
+                response = game.play(guess);
+            }
+            catch(NumberFormatException ex)
+            {
+                response = INVALID_INPUT;
+            }
+
+            scoreLabel.setText("Score: " + game.getScore());
+            resultLabel.setText(response);
+            userInput.setText("");
+
+            if(game.isGuessed())
+            {
+                JOptionPane.showMessageDialog(frame, game.getHistoryDetails(), GUESS_HISTORY_TITLE, JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+
+        // Game Instructions
+        gameInstructions.addActionListener(
                 e ->
                   {
-                      final String instructions;
-                      instructions = getGameInstructions();
                       JOptionPane.showMessageDialog(frame, getGameInstructions());
                   });
 
-        menu.add(option1);
-        menu.add(option2);
+        // Send Feedback
+        sendFeedback.addActionListener(
+                e ->
+                {
+                    final String feedback;
+                    feedback = JOptionPane.showInputDialog(frame, null, FEEDBACK_TITLE, JOptionPane.QUESTION_MESSAGE);
+
+                    try
+                    {
+                        game.saveFeedback(feedback);
+                    }
+                    catch(InvalidFeedbackException ex)
+                    {
+                        JOptionPane.showMessageDialog(frame, ex.getMessage(), ERROR_FEEDBACK_TITLE, JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+
+        option3.addActionListener(e ->
+          {
+              game.restartGame();
+              scoreLabel.setText("Score: " + game.getScore());
+              userInput.setText("");
+              resultLabel.setText("");
+          });
+
+        exit.addActionListener(e -> frame.dispose());
+
+        menu.add(gameInstructions);
+        menu.add(sendFeedback);
         menu.add(option3);
         menu.add(exit);
 
@@ -119,7 +186,6 @@ public class Main
         frame.setJMenuBar(menuBar);
         frame.add(panel);
         frame.setVisible(true);
-
     }
 
     private static String getGameInstructions()
