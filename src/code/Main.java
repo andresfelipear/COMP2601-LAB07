@@ -69,7 +69,7 @@ public class Main
      */
     private static void createAndShowGUI()
     {
-        final GuessingGame game;
+        final Game game;
         final JFrame   frame;
         final JMenuBar menuBar;
         final JMenu    menu;
@@ -137,7 +137,7 @@ public class Main
             resultLabel.setText(response);
             userInput.setText("");
 
-            if(game.isGuessed())
+            if(game.isGameOver())
             {
                 JOptionPane.showMessageDialog(frame, game.getHistoryDetails(), GUESS_HISTORY_TITLE, JOptionPane.INFORMATION_MESSAGE);
             }

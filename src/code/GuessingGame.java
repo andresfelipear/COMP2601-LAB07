@@ -11,7 +11,7 @@ import java.util.List;
  * @author Andres Arevalo
  * @version 1.0
  */
-public class GuessingGame
+public class GuessingGame implements Game
 {
     private int                 guess;
     private int                 score;
@@ -72,6 +72,7 @@ public class GuessingGame
      * @param guess The number guessed by the user.
      * @return A string message indicating the result of the guess.
      */
+    @Override
     public String play(final int guess)
     {
         if(guess < min || guess > max)
@@ -112,19 +113,10 @@ public class GuessingGame
      *
      * @return The current score.
      */
+    @Override
     public int getScore()
     {
         return score;
-    }
-
-    /**
-     * Returns the history of all guesses made by the user.
-     *
-     * @return A string containing the history of guesses.
-     */
-    public String getHistoryDetails()
-    {
-        return String.join("\n", history);
     }
 
     /**
@@ -132,10 +124,24 @@ public class GuessingGame
      *
      * @return {@code true} if the user has guessed correctly, otherwise {@code false}.
      */
-    public boolean isGuessed()
+    @Override
+    public boolean isGameOver()
     {
         return guessed;
     }
+
+    /**
+     * Returns the history of all guesses made by the user.
+     *
+     * @return A string containing the history of guesses.
+     */
+    @Override
+    public String getHistoryDetails()
+    {
+        return String.join("\n", history);
+    }
+
+
 
     /**
      * Saves the user's feedback to a file.
@@ -217,4 +223,5 @@ public class GuessingGame
         feedbacks.clear();
         newGuessNumber();
     }
+
 }
