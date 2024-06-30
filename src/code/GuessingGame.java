@@ -5,7 +5,9 @@ import java.util.List;
 
 /**
  * GuessingGame
- *
+ * This class represents a guessing game where a user tries to guess a randomly generated number
+ * between a specified range. It keeps track of the user's guesses, score, and allows for feedback
+ * submission which is saved to a file.
  * @author Andres Arevalo
  * @version 1.0
  */
@@ -42,6 +44,12 @@ public class GuessingGame
         MIN_FEEDBACK_LENGTH = 10;
     }
 
+    /**
+     * Constructs a GuessingGame with specified minimum and maximum number for guessing.
+     *
+     * @param min The minimum number in the guessing range.
+     * @param max The maximum number in the guessing range.
+     */
     public GuessingGame(final int min,
                         final int max)
     {
@@ -49,12 +57,21 @@ public class GuessingGame
         this.max = max;
     }
 
+    /**
+     * Generates a new random number to be guessed within the range.
+     */
     private void newGuessNumber()
     {
         guess = (int) (Math.random() * (max - min)) + min;
         System.out.println(guess);
     }
 
+    /**
+     * Plays the guessing game by comparing the user's guess with the actual number.
+     *
+     * @param guess The number guessed by the user.
+     * @return A string message indicating the result of the guess.
+     */
     public String play(final int guess)
     {
         if(guess < min || guess > max)
@@ -88,24 +105,44 @@ public class GuessingGame
                 return result;
             }
         }
-
     }
 
+    /**
+     * Returns the current score of the user.
+     *
+     * @return The current score.
+     */
     public int getScore()
     {
         return score;
     }
 
+    /**
+     * Returns the history of all guesses made by the user.
+     *
+     * @return A string containing the history of guesses.
+     */
     public String getHistoryDetails()
     {
         return String.join("\n", history);
     }
 
+    /**
+     * Checks if the user has guessed the number correctly.
+     *
+     * @return {@code true} if the user has guessed correctly, otherwise {@code false}.
+     */
     public boolean isGuessed()
     {
         return guessed;
     }
 
+    /**
+     * Saves the user's feedback to a file.
+     *
+     * @param feedback The feedback provided by the user.
+     * @throws InvalidFeedbackException If the feedback is invalid.
+     */
     public void saveFeedback(String feedback) throws InvalidFeedbackException
     {
         if(feedback == null || feedback.isBlank() || feedback.length() < MIN_FEEDBACK_LENGTH)
@@ -143,6 +180,9 @@ public class GuessingGame
         }
     }
 
+    /**
+     * Restarts the game by resetting the score and clearing the history and feedbacks.
+     */
     public void restartGame()
     {
         guessed = false;
@@ -177,5 +217,4 @@ public class GuessingGame
         feedbacks.clear();
         newGuessNumber();
     }
-
 }

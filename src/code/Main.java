@@ -63,6 +63,10 @@ public class Main
         SwingUtilities.invokeLater(Main::createAndShowGUI);
     }
 
+    /**
+     * Creates and displays the GUI for the Guess the Number Game.
+     * This method initializes all components and sets up event listeners.
+     */
     private static void createAndShowGUI()
     {
         final GuessingGame game;
@@ -185,6 +189,11 @@ public class Main
         frame.setVisible(true);
     }
 
+    /**
+     * Returns the game instructions.
+     *
+     * @return A string containing the game instructions.
+     */
     private static String getGameInstructions()
     {
         return """
