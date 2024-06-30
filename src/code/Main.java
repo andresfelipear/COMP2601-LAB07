@@ -78,7 +78,7 @@ public class Main
 
         final JMenuItem gameInstructions;
         final JMenuItem sendFeedback;
-        final JMenuItem option3;
+        final JMenuItem restartGame;
         final JMenuItem exit;
 
         final JLabel headerLabel;
@@ -98,7 +98,7 @@ public class Main
 
         gameInstructions = new JMenuItem(OPTION1);
         sendFeedback    = new JMenuItem(OPTION2);
-        option3         = new JMenuItem(OPTION3);
+        restartGame         = new JMenuItem(OPTION3);
         exit            = new JMenuItem(EXIT);
 
         headerLabel = new JLabel(GAME_DESCRIPTION, JLabel.CENTER);
@@ -143,12 +143,9 @@ public class Main
             }
         });
 
-
-        // Game Instructions
         gameInstructions.addActionListener(
                 e -> JOptionPane.showMessageDialog(frame, getGameInstructions()));
 
-        // Send Feedback
         sendFeedback.addActionListener(
                 e ->
                 {
@@ -165,7 +162,7 @@ public class Main
                     }
                 });
 
-        option3.addActionListener(e ->
+        restartGame.addActionListener(e ->
           {
               game.restartGame();
               scoreLabel.setText("Score: " + game.getScore());
@@ -177,7 +174,7 @@ public class Main
 
         menu.add(gameInstructions);
         menu.add(sendFeedback);
-        menu.add(option3);
+        menu.add(restartGame);
         menu.add(exit);
 
         menuBar.add(menu);
