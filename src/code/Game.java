@@ -2,7 +2,7 @@
 /**
  * Game
  *
- * @author Andres Arevalo
+ * @author Andres Arevalo, Marius Guerra & Raaz
  * @version 1.0
  */
 public interface Game

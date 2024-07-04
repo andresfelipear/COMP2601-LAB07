@@ -4,7 +4,7 @@ import java.awt.*;
 /**
  * Main
  *
- * @author Andres Arevalo
+ * @author Andres Arevalo, Marius Guerra & Raaz
  * @version 1.0
  */
 public class Main

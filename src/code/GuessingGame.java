@@ -8,7 +8,7 @@ import java.util.List;
  * This class represents a guessing game where a user tries to guess a randomly generated number
  * between a specified range. It keeps track of the user's guesses, score, and allows for feedback
  * submission which is saved to a file.
- * @author Andres Arevalo
+ * @author Andres Arevalo, Marius Guerra & Raaz
  * @version 1.0
  */
 public class GuessingGame implements Game
@@ -31,7 +31,6 @@ public class GuessingGame implements Game
     {
         history     = new ArrayList<>();
         feedbacks   = new ArrayList<>();
-        newGuessNumber();
         fw          = null;
     }
 
@@ -55,6 +54,7 @@ public class GuessingGame implements Game
     {
         this.min = min;
         this.max = max;
+        newGuessNumber();
     }
 
     /**
