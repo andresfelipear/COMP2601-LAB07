@@ -128,7 +128,7 @@ public class Main
                 guess    = Integer.parseInt(userInput.getText());
                 response = game.play(guess);
             }
-            catch(NumberFormatException ex)
+            catch(final NumberFormatException ex)
             {
                 response = INVALID_INPUT;
             }
@@ -156,7 +156,7 @@ public class Main
                     {
                         game.saveFeedback(feedback);
                     }
-                    catch(InvalidFeedbackException ex)
+                    catch(final InvalidFeedbackException ex)
                     {
                         JOptionPane.showMessageDialog(frame, ex.getMessage(), ERROR_FEEDBACK_TITLE, JOptionPane.ERROR_MESSAGE);
                     }

@@ -164,7 +164,7 @@ public class GuessingGame implements Game
             fw = new FileWriter(FILE_NAME, true);
             fw.write(feedbacks.getLast() + System.lineSeparator());
         }
-        catch(IOException e)
+        catch(final IOException e)
         {
             System.out.println(ERROR_WRITING_FILE);
             System.out.println(e.getMessage());
@@ -177,7 +177,7 @@ public class GuessingGame implements Game
                 {
                     fw.close();
                 }
-                catch(IOException e)
+                catch(final IOException e)
                 {
                     System.out.println(ERROR_CLOSING_FILE);
                     System.out.println(e.getMessage());
@@ -198,7 +198,7 @@ public class GuessingGame implements Game
             fw      = new FileWriter(FILE_NAME);
             fw.write("");
         }
-        catch(IOException e)
+        catch(final IOException e)
         {
             System.out.println(ERROR_WRITING_FILE);
             System.out.println(e.getMessage());
@@ -211,7 +211,7 @@ public class GuessingGame implements Game
                 {
                     fw.close();
                 }
-                catch(IOException e)
+                catch(final IOException e)
                 {
                     System.out.println(ERROR_CLOSING_FILE);
                     System.out.println(e.getMessage());
